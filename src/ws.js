@@ -1,5 +1,9 @@
 const ws = new WebSocket('ws://localhost:8080');
 
+ws.onopen = (event) => {
+    console.info('ws connected');
+}
+
 ws.onmessage = (event) => {
     document.getElementById('output').innerText += event.data + '\n';
 };

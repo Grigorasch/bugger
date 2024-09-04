@@ -17,10 +17,11 @@ class AcodePlugin {
     const sideButton = SideButton({
       text: 'My Side Button',
       icon: 'btn-icn',
-      onclick: this.wsConnect.bind(this),
+      onclick: () => this.#ws ? console.log(window.editorManager.editor) : this.wsConnect(),
       backgroundColor: '#fff',
       textColor: '#000',
     });
+    sideButton.show();
 
     console.info('Задаём слушателя')
     window.editorManager.editor.on('guttermousedown', this.toggleBreakpointByClick.bind(this));
@@ -81,6 +82,9 @@ class AcodePlugin {
 
   wsConnect() {
     this.#ws = new WebSocket('ws://localhost:8080');
+    ws.onopen = (event) => {
+      console.info('ws connected', event);
+    }
     this.#ws.onmessage = (event) => {
       document.getElementById('output').innerText += event.data + '\n';
     };
