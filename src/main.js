@@ -1,5 +1,6 @@
 import plugin from '../plugin.json';
 const SideButton = acode.require('sideButton');
+const editorFile = acode.require('editorFile');
 
 class AcodePlugin {
   #style;
@@ -17,7 +18,7 @@ class AcodePlugin {
     const sideButton = SideButton({
       text: 'My Side Button',
       icon: 'btn-icn',
-      onclick: () => this.#ws ? console.log(window.editorManager.editor) : this.wsConnect(),
+      onclick: () => this.#ws ? console.log(window.editorManager.editor, editorFile) : this.wsConnect(),
       backgroundColor: '#fff',
       textColor: '#000',
     });
