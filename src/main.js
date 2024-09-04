@@ -1,8 +1,10 @@
 import plugin from '../plugin.json';
+const SideButton = acode.require('sideButton');
 
 class AcodePlugin {
   #style;
   #fingerHold = false;
+  #ws;
 
   async init() {
     console.info('Задаём стиль')
@@ -10,6 +12,15 @@ class AcodePlugin {
     this.#style = document.createElement('style');
     this.#style.textContent = '.ace_breakpoint {border-radius: 20px 0px 0px 20px; background: #652020;}';
     document.head.appendChild(this.#style);
+
+    window.acode.addIcon('btn-icn', 'https://s.iimg.su/s/04/9eqJxr5oVbMjFs7FyN23aaxg0LgTIh6c8SEC5TpU.png');
+    const sideButton = SideButton({
+      text: 'My Side Button',
+      icon: 'btn-icn',
+      onclick: this.wsConnect.bind(this),
+      backgroundColor: '#fff',
+      textColor: '#000',
+    });
 
     console.info('Задаём слушателя')
     window.editorManager.editor.on('guttermousedown', this.toggleBreakpointByClick.bind(this));
@@ -49,15 +60,15 @@ class AcodePlugin {
   toogleBreakpoint(row, state) {
     console.info('on toogleBreakpoint')
     const editor = window.editorManager.editor;
-    const breakpoints = editor.getBreakpoints();
+    const breakpoints = editor.session.getBreakpoints();
 
     if (state === undefined) {
       state = !breakpoints[row];
     }
     if (state) {
-      editor.setBreakpoint(row);
+      editor.session.setBreakpoint(row);
     } else {
-      editor.clearBreakpoint(row);
+      editor.session.clearBreakpoint(row);
     }
     console.info('off toogleBreakpoint')
   }
@@ -66,6 +77,13 @@ class AcodePlugin {
     console.info('on toggleBreakpointByClick')
     this.toogleBreakpoint(event.getDocumentPosition().row);
     console.info('off toggleBreakpointByClick')
+  }
+
+  wsConnect() {
+    this.#ws = new WebSocket('ws://localhost:8080');
+    this.#ws.onmessage = (event) => {
+      document.getElementById('output').innerText += event.data + '\n';
+    };
   }
 
 
@@ -90,9 +108,3 @@ function test() {
   
 }
 
-function gutterClick(e) {
-  console.log(document)
-  
-  console.log(document.querySelector('.ace_breakpoint'))
-  console.log(e)
-}

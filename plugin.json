@@ -1,7 +1,7 @@
 {
   "id": "com.acode.bugger",
   "name": "Bugger",
-  "main": "src/main.js",
+  "main": "dist/main.js",
   "version": "1.0.0",
   "readme": "readme.md",
   "icon": "icon.png",

@@ -7,7 +7,6 @@
   "author": "Ajit <me@ajitkumar.dev>",
   "license": "MIT",
   "dependencies": {
-    "chrome-remote-interface": "^0.33.2",
     "html-tag-js": "^1.1.41"
   },
   "devDependencies": {
@@ -24,8 +23,5 @@
     "build": "webpack",
     "build-release": "webpack --mode production"
   },
-  "browserslist": "cover 100%,not android < 5",
-  "browser": {
-    "child_process": false
-  }
+  "browserslist": "cover 100%,not android < 5"
 }
